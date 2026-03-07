@@ -1,0 +1,26 @@
+{%extends 'base.html'%}
+{%block content%}
+<!-- Featured posts -->
+<h3 class="text-uppercase text-danger" style="letter-spacing: 2px;">{{category}}</h3>
+
+  <div class="row mb-2">
+    {%if posts%}
+    {%for post in posts%}
+    <div class="col-md-6">
+      <div class="card border-0" >
+        <div class="card-body">
+          <h3><a href="{% url 'blogs' post.slug %}" class="text-dark">{{post.title}}</a></h3>
+          <small class="mb-1 text-muted">{{post.created_at|date:"M d, Y"}}</small>
+          <p class="card-text">{{post.short_description | truncatewords:20 }}</p>
+        </div>
+      </div>
+    </div>
+    {%endfor%}
+    {%else%}
+    <div class="col-md-12">
+      <p class="text-center">No posts available in this category.</p>
+    </div>
+    {%endif%}
+  </div>
+</div>
+{%endblock%}

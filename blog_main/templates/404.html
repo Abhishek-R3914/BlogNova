@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>404 - Page Not Found</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    body{
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background: linear-gradient(-45deg,#667eea,#764ba2,#6a11cb,#2575fc);
+        background-size:400% 400%;
+        animation: gradientBG 12s ease infinite;
+        overflow:hidden;
+        color:white;
+        text-align:center;
+    }
+
+    @keyframes gradientBG{
+        0%{background-position:0% 50%;}
+        50%{background-position:100% 50%;}
+        100%{background-position:0% 50%;}
+    }
+
+    .container{
+        position:relative;
+        z-index:2;
+        animation: fadeIn 1.5s ease;
+    }
+
+    @keyframes fadeIn{
+        from{opacity:0; transform:translateY(30px);}
+        to{opacity:1; transform:translateY(0);}
+    }
+
+    h1{
+        font-size:120px;
+        letter-spacing:5px;
+        text-shadow:0 10px 30px rgba(0,0,0,0.3);
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float{
+        0%,100%{transform:translateY(0);}
+        50%{transform:translateY(-15px);}
+    }
+
+    h2{
+        margin-top:-20px;
+        font-weight:300;
+        letter-spacing:2px;
+    }
+
+    p{
+        margin:20px 0 35px;
+        opacity:.9;
+    }
+
+    a{
+        text-decoration:none;
+        padding:14px 28px;
+        border-radius:30px;
+        background:white;
+        color:#5a4fcf;
+        font-weight:bold;
+        transition:.3s;
+        box-shadow:0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    a:hover{
+        transform:translateY(-3px);
+        box-shadow:0 15px 30px rgba(0,0,0,0.3);
+    }
+
+    /* Floating circles */
+    .circle{
+        position:absolute;
+        border-radius:50%;
+        background:rgba(255,255,255,0.1);
+        animation: move 25s linear infinite;
+        bottom:-150px;
+    }
+
+    .circle:nth-child(1){
+        width:120px;height:120px;left:10%;
+        animation-duration:18s;
+    }
+    .circle:nth-child(2){
+        width:80px;height:80px;left:25%;
+        animation-duration:22s;
+    }
+    .circle:nth-child(3){
+        width:150px;height:150px;left:70%;
+        animation-duration:26s;
+    }
+    .circle:nth-child(4){
+        width:60px;height:60px;left:85%;
+        animation-duration:16s;
+    }
+
+    @keyframes move{
+        0%{transform:translateY(0) rotate(0deg);}
+        100%{transform:translateY(-1200px) rotate(720deg);}
+    }
+
+    footer{
+        position:absolute;
+        bottom:20px;
+        font-size:14px;
+        opacity:.8;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>404</h1>
+    <h2>Oops! Page Not Found</h2>
+    <p>The page you’re looking for doesn’t exist or has been moved.</p>
+    <a href="/">Go Back Home</a>
+</div>
+
+<!-- floating background shapes -->
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+
+<footer>&copy;Django blog built  by Abhishek.R</footer>
+
+</body>
+</html>
