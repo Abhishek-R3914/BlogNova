@@ -7,17 +7,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlogNova</title>
     <link rel="icon" href="static/images/BlogNova.png" type="image/png">
+    
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Animation Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="{% static 'css/blog.css' %}" rel="stylesheet">
   </head>
 <body>
     <div class="container">
-      <header class="blog-header py-3">
+      <header class="blog-header py-3 animate__animated animate__fadeInDown">
         <div class="row flex-nowrap justify-content-between align-items-center">
           <div class="col-4 pt-1">
-            <a class="blog-header-logo text-dark " href="/">BlogNova</a>
+            <a class="blog-header-logo" href="/">BlogNova</a>
           </div>
           <div class="col-4">
             <form action="{% url 'search' %}" method="get">
@@ -40,19 +49,29 @@
         </div>
       </header>
 
-      <div class="nav-scroller py-1 mb-2">
+      <div class="nav-scroller py-2 mb-4 animate__animated animate__fadeInDown animate__delay-1s">
         <nav class="nav d-flex justify-content-between">
           {%for cat in categories%}
-          <a class="p-2 text-muted" href="{% url 'posts_by_category' cat.id %}">{{cat.category_name}}</a>
+          <a class="p-2 text-muted nav-link" href="{% url 'posts_by_category' cat.id %}">{{cat.category_name}}</a>
           {%endfor%}
         </nav>
       </div>
 
 {%block content%}
 {%endblock%}
-      <footer class="blog-footer">
-        <p>&copy;Django blog built  by Abhishek.R</p>
+      <footer class="blog-footer" data-aos="fade-up">
+        <p>&copy; Django blog built by Abhishek.R</p>
       </footer>
     </div>
+
+    <!-- Initialize AOS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 800,
+        once: true,
+        offset: 100
+      });
+    </script>
 </body>
 </html>

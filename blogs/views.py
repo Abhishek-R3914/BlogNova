@@ -36,6 +36,6 @@ def search(request):
     blogs = Blog.objects.filter(Q(title__icontains=keyword) | Q(short_description__icontains=keyword) | Q(blog_body__icontains=keyword),status = 'Publish')
     context = {
         'blogs' : blogs,
-        'keyword' : keyword
+        'keyword' : keyword,
     }
     return render(request,'search.html',context)

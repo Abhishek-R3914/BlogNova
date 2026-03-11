@@ -1,12 +1,42 @@
- <!-- Left Sidebar -->
-     <div class="col-md-3">
-        <div class="nav flex-column nav-pills bg-light" aria-orientation="vertical">
-            <a href="{% url 'dashboard' %}" class="nav-link  {%if '/dashboard/' == request.path%}bg-primary text-white{%else%}text-dark{% endif %}" >Dashboard</a>
-            {% if perms.auth.add_user %}
-            <a href="{% url 'users' %}" class="nav-link  {%if '/users/' in request.path%}bg-primary text-white{% else %}text-dark{% endif %}" >Users</a>
-            {% endif %}
-            <a href="{% url 'categories' %}" class="nav-link  {%if '/categories/' in request.path%}bg-primary text-white{% else %}text-dark{% endif %}" >Categories</a>
-            <a href="{% url 'posts' %}" class="nav-link  {%if '/posts/' in request.path%}bg-primary text-white{% else %}text-dark{% endif %}" >Posts</a>
-            <a href="{% url 'logout' %}" class="nav-link text-dark" >Logout</a>
+<!-- Left Sidebar -->
+<div class="col-md-3 mb-4 mb-md-0" data-aos="fade-right">
+    <div class="glass-card overflow-hidden">
+        <div class="bg-primary text-white p-4 text-center">
+            <i class="fa fa-user-circle-o fa-3x mb-2"></i>
+            <h5 class="mb-0 font-weight-bold">Welcome, {{user.username}}</h5>
+            <small class="text-white-50">Admin Panel</small>
         </div>
-     </div>
+        <div class="nav flex-column nav-pills p-3" aria-orientation="vertical">
+            <a href="{% url 'dashboard' %}" class="nav-link mb-2 d-flex align-items-center {%if '/dashboard/' == request.path%}active bg-primary text-white shadow-sm{%else%}text-dark hover-primary{% endif %}" style="border-radius: 8px; font-weight: 500; transition: all 0.2s;">
+                <i class="fa fa-tachometer mr-3 fa-fw"></i> Overview
+            </a>
+            
+            {% if perms.auth.add_user %}
+            <a href="{% url 'users' %}" class="nav-link mb-2 d-flex align-items-center {%if '/users/' in request.path%}active bg-primary text-white shadow-sm{% else %}text-dark hover-primary{% endif %}" style="border-radius: 8px; font-weight: 500; transition: all 0.2s;">
+                <i class="fa fa-users mr-3 fa-fw"></i> Users
+            </a>
+            {% endif %}
+            
+            <a href="{% url 'categories' %}" class="nav-link mb-2 d-flex align-items-center {%if '/categories/' in request.path%}active bg-primary text-white shadow-sm{% else %}text-dark hover-primary{% endif %}" style="border-radius: 8px; font-weight: 500; transition: all 0.2s;">
+                <i class="fa fa-tags mr-3 fa-fw"></i> Categories
+            </a>
+            
+            <a href="{% url 'posts' %}" class="nav-link mb-2 d-flex align-items-center {%if '/posts/' in request.path%}active bg-primary text-white shadow-sm{% else %}text-dark hover-primary{% endif %}" style="border-radius: 8px; font-weight: 500; transition: all 0.2s;">
+                <i class="fa fa-file-text-o mr-3 fa-fw"></i> Posts
+            </a>
+            
+            <hr class="my-3 w-100">
+            
+            <a href="{% url 'logout' %}" class="nav-link text-danger d-flex align-items-center mt-auto" style="border-radius: 8px; font-weight: 500; transition: all 0.2s;">
+                <i class="fa fa-sign-out mr-3 fa-fw"></i> Logout
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+.hover-primary:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: var(--primary) !important;
+}
+</style>

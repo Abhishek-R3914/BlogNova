@@ -1,92 +1,121 @@
 {% extends 'base.html' %}
-{%block content%}
+{% block content %}
 <!-- Page content-->
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
     <div class="row">
-        <div class="col-lg-8">
-            <!-- Post content-->
-            <article>
+        <!-- Main Content Column -->
+        <div class="col-lg-8" data-aos="fade-up">
+            <article class="glass-card p-4 p-md-5 mb-5 shadow-sm">
                 <!-- Post header-->
-                <header class="mb-4">
-                    <!-- Post title-->
-                    <h1 class="fw-bolder mb-1">{{single_blog.title}}</h1>
-                    <!-- Post meta content-->
-                    <div class="text-muted fst-italic mb-2">Posted on {{single_blog.created_at|date:"M d, Y"}} by {{single_blog.author}}</div>
-                    <!-- Post category-->
-                    <a class="badge bg-primary text-decoration-none text-light" href="#!">{{single_blog.category.category_name}}</a>
+                <header class="mb-4 text-center">
+                    <a class="badge badge-primary text-decoration-none px-3 py-2 mb-3 rounded-pill" href="{% url 'posts_by_category' single_blog.category.id %}" style="font-size: 0.9rem; letter-spacing: 1px;">{{single_blog.category.category_name}}</a>
+                    <h1 class="fw-bolder mb-3 display-4 font-weight-bold" style="color: var(--primary);">{{single_blog.title}}</h1>
+                    <div class="text-muted fst-italic mb-2">
+                        <i class="fa fa-calendar-alt mr-2"></i>Posted on {{single_blog.created_at|date:"M d, Y"}} &nbsp; | &nbsp; 
+                        <i class="fa fa-user mr-2"></i>By <strong>{{single_blog.author}}</strong>
+                    </div>
                 </header>
+                
                 <!-- Preview image figure-->
-                <figure class="mb-4"><img class="img-fluid rounded" src="{{single_blog.featured_image.url}}" alt="..." /></figure>
+                <figure class="mb-5 overflow-hidden rounded shadow-sm" style="max-height: 500px;">
+                    <img class="img-fluid w-100" src="{{single_blog.featured_image.url}}" alt="{{single_blog.title}}" style="object-fit: cover; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"/>
+                </figure>
+                
                 <!-- Post content-->
-                <section class="mb-5">
-                    <p class="fs-5 mb-4">{{single_blog.short_description}}</p>
-                    <p class="fs-5 mb-4">{{single_blog.blog_body}}</p>
-                    <h4>Comments({{comment_count}})</h4>
+                <section class="mb-5 article-content" style="font-size: 1.15rem; line-height: 1.8; color: #334155;">
+                    <p class="fs-5 mb-4 lead text-dark border-left pl-4" style="border-color: var(--primary) !important; border-width: 4px !important;">{{single_blog.short_description}}</p>
+                    <div class="mt-4">
+                        {{single_blog.blog_body|safe}}
+                    </div>
+                </section>
+
+                <!-- Comments Section -->
+                <section class="mt-5 pt-4 border-top">
+                    <h3 class="font-weight-bold mb-4">Comments <span class="badge badge-secondary badge-pill">{{comment_count}}</span></h3>
+                    
                     {% if comments %}
-                    {%for comment in comments%}
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text mb-0">{{comment}}</p>
-                            <span>
-                                <small>By {{comment.user}}</small>
-                                <small>|{{comment.created_at|timesince}}</small>
-                            </span>
-                        </div>
-                    </div>
-                    {%endfor%}
-                    {%else%}
-                    <p>No comments yet.</p>
-                    {%endif%}
-                    <br>
-                    {% if user.is_authenticated %}
-                    <div class="form-group">
-                        <form action="" method="post">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <textarea name="comment" class='form-control' placeholder="Write your comment"></textarea>
-                                <input type="submit" value="Submit" class="btn btn-primary mt-2">
+                        <div class="comments-list">
+                        {% for comment in comments %}
+                            <div class="card bg-light border-0 mb-3 animate__animated animate__fadeInUp" style="border-radius: 12px; animation-delay: {{ forloop.counter0 }}00ms;">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6 class="font-weight-bold mb-0 text-primary">{{comment.user}}</h6>
+                                        <small class="text-muted"><i class="fa fa-clock-o mr-1"></i>{{comment.created_at|timesince}} ago</small>
+                                    </div>
+                                    <p class="card-text mb-0 text-dark">{{comment}}</p>
+                                </div>
                             </div>
-                        </form>
-                    </div>
+                        {% endfor %}
+                        </div>
                     {% else %}
-                    <p><a href="{% url 'login' %}">Login</a> to post a comment.</p>
+                        <div class="alert alert-light text-center" role="alert">
+                            <i class="fa fa-comments-o fa-2x mb-3 text-muted d-block"></i>
+                            No comments yet. Be the first to share your thoughts!
+                        </div>
                     {% endif %}
-                    </section>
+                    
+                    <!-- Comment Form -->
+                    <div class="mt-5 glass-card p-4">
+                        <h5 class="font-weight-bold mb-3">Leave a Reply</h5>
+                        {% if user.is_authenticated %}
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <textarea name="comment" class="form-control" rows="4" placeholder="Write your comment here..." required style="resize: none;"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary px-4 py-2 mt-2"><i class="fa fa-paper-plane mr-2"></i>Post Comment</button>
+                            </form>
+                        {% else %}
+                            <div class="text-center p-4 bg-light rounded">
+                                <p class="mb-3">You must be logged in to post a comment.</p>
+                                <a href="{% url 'login' %}" class="btn btn-outline-primary px-4">Login Now</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </section>
             </article>
         </div>
-        <!-- Side widgets-->
-        <div class="col-lg-4">
+        
+        <!-- Sidebar Widgets Column -->
+        <div class="col-lg-4" data-aos="fade-left" data-aos-delay="200">
             <!-- Search widget-->
-            <div class="card mb-4">
-                <div class="card-header">Search</div>
+            <div class="glass-card mb-4 overflow-hidden">
+                <div class="card-header bg-transparent border-bottom font-weight-bold text-uppercase" style="letter-spacing: 1px;">Search</div>
                 <div class="card-body">
-                    
-                </div>
-            </div>
-            <!-- Categories widget-->
-            <div class="card mb-4 p-3">
-                <h4 class="font-italic">Categories</h4>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <ul class="list-unstyled mb-0">
-                                {%for cat in categories%}
-                                <li><a href="{% url 'posts_by_category' cat.id %}">{{cat.category_name}}</a></li>
-                                {%endfor%}
-                            </ul>
+                    <form action="{% url 'search' %}" method="get">
+                        <div class="input-group">
+                            <input class="form-control border-right-0" type="text" name="keyword" placeholder="Search articles..." aria-label="Search articles..." />
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
+            
+            <!-- Categories widget-->
+            <div class="glass-card mb-4 overflow-hidden">
+                <div class="card-header bg-transparent border-bottom font-weight-bold text-uppercase" style="letter-spacing: 1px;">Categories</div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        {% for cat in categories %}
+                        <li class="list-group-item bg-transparent border-light d-flex justify-content-between align-items-center">
+                            <a href="{% url 'posts_by_category' cat.id %}" class="text-decoration-none text-dark hover-primary" style="transition: color 0.3s;"><i class="fa fa-angle-right text-primary mr-2"></i>{{cat.category_name}}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            
             <!-- Side widget-->
-            <div class="p-3">
-                <h4 class="font-italic">Follow Us</h4>
-                <ol class="list-unstyled">
-                    <li><a href="https://github.com/Abhishek-R3914">GitHub</a></li>
-                    <li><a href="https://www.linkedin.com/in/-abhishek-r-">LinkedIn</a></li>
-                </ol>
+            <div class="glass-card p-4">
+                <h5 class="font-weight-bold mb-3 text-uppercase" style="letter-spacing: 1px;">Follow Us</h5>
+                <div class="d-flex flex-column gap-2" style="gap: 10px;">
+                    <a href="https://github.com/Abhishek-R3914" class="btn btn-outline-dark w-100 text-left d-flex justify-content-between align-items-center" target="_blank"><i class="fa fa-github fa-lg"></i> GitHub</a>
+                    <a href="https://www.linkedin.com/in/-abhishek-r-" class="btn btn-outline-primary w-100 text-left d-flex justify-content-between align-items-center" target="_blank"><i class="fa fa-linkedin fa-lg"></i> LinkedIn</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
-{%endblock%}
+{% endblock %}
